@@ -1,0 +1,68 @@
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useLocation } from '@/context/LocationContext';
+import { motion } from 'framer-motion';
+
+interface NewTrackDialogProps {
+  onClose?: () => void;
+}
+
+export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
+  const [trackName, setTrackName] = useState('');
+  const { startTracking } = useLocation();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleStart = () => {
+    if (trackName.trim()) {
+      startTracking(trackName.trim());
+      setIsOpen(false);
+      onClose?.();
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} modal={true}>
+      <DialogContent 
+        className="w-[90vw] max-w-md mx-auto dialog-content-top"
+        style={{ 
+          background: 'hsl(167 49% 7% / 0.8)',
+          backdropFilter: 'blur(12px)'
+        }}
+      >
+        <DialogHeader className="mb-2">
+          <DialogTitle className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+            Créer un nouveau parcours
+          </DialogTitle>
+        </DialogHeader>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-6"
+        >
+          <p className="text-sm md:text-base text-foreground/80 leading-relaxed -mt-1">
+            Pour créer un nouveau parcours, entrez le nom de votre parcours ci-dessous et autorisez la géolocalisation.
+          </p>
+          <div>
+            <Input
+              placeholder="Nom du parcours"
+              value={trackName}
+              onChange={(e) => setTrackName(e.target.value)}
+              className="h-12 text-base md:text-lg placeholder:text-foreground/50"
+            />
+          </div>
+          <div className="flex justify-center">
+            <Button
+              onClick={handleStart}
+              disabled={!trackName.trim()}
+              className="w-full md:w-auto h-14 md:h-16 px-6 md:px-12 text-base md:text-xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 button-primary"
+            >
+              Démarrer l'enregistrement
+            </Button>
+          </div>
+        </motion.div>
+      </DialogContent>
+    </Dialog>
+  );
+};

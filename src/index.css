@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 167 49% 7%;
+    --foreground: 152 47% 91%;
+    --card: 167 49% 7%;
+    --card-foreground: 152 47% 91%;
+    --popover: 167 41% 12%;
+    --popover-foreground: 152 47% 91%;
+    --primary: 84 76% 69%;
+    --primary-foreground: 167 49% 7%;
+    --secondary: 84 76% 69%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 167 37% 16%;
+    --muted-foreground: 152 47% 91%;
+    --accent: 167 37% 16%;
+    --accent-foreground: 152 47% 91%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: rgb(172 228 124 / 0.2);
+    --input: 167 37% 16%;
+    --ring: 84 76% 69%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply h-[100dvh] overflow-hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased h-[100dvh] w-screen overflow-hidden fixed inset-0;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Toast styles */
+[data-sonner-toaster] {
+  position: fixed !important;
+  bottom: 130px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: auto !important;
+  min-width: 300px !important;
+  max-width: 90vw !important;
+  margin-left: 0 !important;
+  right: auto !important;
+}
+
+[data-sonner-toast] {
+  @apply !bg-[#343f3c]/90 !backdrop-blur-sm !border-[#ace47c]/10 !rounded-2xl !shadow-lg;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Map styles */
+.maplibregl-ctrl-group {
+  @apply !rounded-xl !overflow-hidden;
+  background: #343f3c !important;
+  border: none !important;
+}
+
+.maplibregl-ctrl-group button {
+  @apply !w-12 !h-12;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid rgba(172, 228, 124, 0.1) !important;
+}
+
+.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon,
+.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+  filter: invert(1) !important;
+  transform: scale(1.5) !important;
+}
+
+/* Dialog styles */
+.dialog-content {
+  @apply !p-6 !shadow-2xl !rounded-3xl !border-none;
+  background: hsl(167 49% 7% / 0.95) !important;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s ease-out !important;
+}
+
+/* Special positioning for dialogs */
+.dialog-content-top {
+  top: 2rem !important;
+  transform: translateX(-50%) !important;
+  margin-bottom: 2rem;
+}
+
+/* Button styles */
+.button-primary {
+  @apply transition-all duration-200 active:scale-95;
+}
+
+.button-control {
+  @apply !shadow-lg !backdrop-blur-sm !bg-opacity-90 hover:!bg-opacity-100 !transition-all !duration-300 !rounded-full;
+}
+
+/* Input styles */
+input, textarea {
+  @apply !border-0 !bg-muted/50 focus:!ring-[0.5px] focus:!ring-[#ace47c]/50 focus:!outline-none !transition-all !duration-200;
+}
+
+/* Safe area handling */
+@supports(padding: max(0px)) {
+  .fixed {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Responsive dialog width */
+@media (max-width: 640px) {
+  .dialog-content {
+    @apply !w-[calc(100%-2rem)] !mx-auto;
+    max-height: calc(100vh - 8rem) !important;
+  }
+  
+  .dialog-content-top {
+    max-height: calc(100vh - 16rem) !important;
+  }
+}
+
+/* Add slide animations */
+@keyframes slideInFromTop {
+  from {
+    transform: translate(-50%, -100%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes slideOutToTop {
+  from {
+    transform: translate(-50%, -50%);
+  }
+  to {
+    transform: translate(-50%, -100%);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translate(-50%, 100%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes slideOutToBottom {
+  from {
+    transform: translate(-50%, -50%);
+  }
+  to {
+    transform: translate(-50%, 100%);
+  }
+}
+
+.slide-in-from-top {
+  animation: slideInFromTop 0.2s ease-out;
+}
+
+.slide-out-to-top {
+  animation: slideOutToTop 0.2s ease-out;
+}
+
+.slide-in-from-bottom {
+  animation: slideInFromBottom 0.2s ease-out;
+}
+
+.slide-out-to-bottom {
+  animation: slideOutToBottom 0.2s ease-out;
+}
