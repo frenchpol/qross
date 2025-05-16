@@ -55,21 +55,29 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
               className="h-12 text-base md:text-lg placeholder:text-foreground/50"
             />
           </div>
-          <div className="flex items-center justify-between space-x-4">
-            <Label htmlFor="poi-only" className="text-sm md:text-base">
-              {poiOnly ? 'Points d\'intérêt uniquement' : 'Parcours + Points d\'intérêt'}
-            </Label>
+          <div className="flex items-center justify-between space-x-4 px-1">
+            <div className="flex-1 text-right">
+              <Label htmlFor="poi-only" className="text-sm md:text-base text-foreground/80">
+                Parcours + Points d'intérêt
+              </Label>
+            </div>
             <Switch
               id="poi-only"
               checked={poiOnly}
               onCheckedChange={setPoiOnly}
+              className="data-[state=checked]:bg-[#ace47c] data-[state=unchecked]:bg-muted"
             />
+            <div className="flex-1">
+              <Label htmlFor="poi-only" className="text-sm md:text-base text-foreground/80">
+                Points d'intérêt uniquement
+              </Label>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
               onClick={handleStart}
               disabled={!trackName.trim()}
-              className="w-full md:w-auto h-14 md:h-16 px-6 md:px-12 text-base md:text-xl font-bold bg-primary text-primary-foreground hover:bg-primary/90 button-primary"
+              className="w-full h-14 md:h-16 px-6 text-base md:text-xl font-bold bg-[#ace47c] text-[#0f1a17] hover:bg-[#ace47c]/90 rounded-full button-primary"
             >
               Démarrer l'enregistrement
             </Button>
