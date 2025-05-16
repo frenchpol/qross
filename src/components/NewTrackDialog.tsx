@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLocation } from '@/context/LocationContext';
 import { motion } from 'framer-motion';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 interface NewTrackDialogProps {
   onClose?: () => void;
@@ -11,12 +13,13 @@ interface NewTrackDialogProps {
 
 export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
   const [trackName, setTrackName] = useState('');
+  const [poiOnly, setPoiOnly] = useState(false);
   const { startTracking } = useLocation();
   const [isOpen, setIsOpen] = useState(true);
 
   const handleStart = () => {
     if (trackName.trim()) {
-      startTracking(trackName.trim());
+      startTracking(trackName.trim(), poiOnly);
       setIsOpen(false);
       onClose?.();
     }
@@ -50,6 +53,16 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
               value={trackName}
               onChange={(e) => setTrackName(e.target.value)}
               className="h-12 text-base md:text-lg placeholder:text-foreground/50"
+            />
+          </div>
+          <div className="flex items-center justify-between space-x-4">
+            <Label htmlFor="poi-only" className="text-sm md:text-base">
+              {poiOnly ? 'Points d\'intérêt uniquement' : 'Parcours + Points d\'intérêt'}
+            </Label>
+            <Switch
+              id="poi-only"
+              checked={poiOnly}
+              onCheckedChange={setPoiOnly}
             />
           </div>
           <div className="flex justify-center">

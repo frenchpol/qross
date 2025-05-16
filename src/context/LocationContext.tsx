@@ -24,14 +24,17 @@ export const LocationProvider = ({ children }: { children: React.ReactNode }) =>
     currentAltitude,
     pois,
     trackName,
+    isPoiOnlyMode,
     setTrackName,
     updatePosition,
     addPOI,
-    resetTrack
+    resetTrack,
+    setPoiOnlyMode
   } = useTrack();
 
-  const handleStartTracking = (name: string) => {
+  const handleStartTracking = (name: string, poiOnly: boolean = false) => {
     setTrackName(name);
+    setPoiOnlyMode(poiOnly);
     resetTrack();
     startGeoTracking({
       onSuccess: (position) => updatePosition(position, isPaused),
@@ -51,11 +54,13 @@ export const LocationProvider = ({ children }: { children: React.ReactNode }) =>
         pois,
         error,
         isLoading,
+        isPoiOnlyMode,
         startTracking: handleStartTracking,
         stopTracking,
         pauseTracking,
         resumeTracking,
-        addPOI
+        addPOI,
+        setPoiOnlyMode
       }}
     >
       {children}

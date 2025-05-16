@@ -15,6 +15,7 @@ export const useTrack = () => {
   const [trackName, setTrackName] = useState('');
   const [lastRecordedTime, setLastRecordedTime] = useState(0);
   const [lastPausePoint, setLastPausePoint] = useState<PathPoint | null>(null);
+  const [isPoiOnlyMode, setIsPoiOnlyMode] = useState(false);
 
   const shouldAddPoint = useCallback((
     newLocation: [number, number],
@@ -45,6 +46,9 @@ export const useTrack = () => {
     // Always update current position
     setCurrentLocation(newLocation);
     setCurrentAltitude(altitude);
+
+    // Don't record path points in POI-only mode
+    if (isPoiOnlyMode) return;
 
     if (isPaused) {
       if (!lastPausePoint && currentPath.length > 0) {
@@ -77,7 +81,7 @@ export const useTrack = () => {
       };
       setCurrentPath(prev => [...prev, newPoint]);
     }
-  }, [currentPath, lastRecordedTime, lastPausePoint, shouldAddPoint]);
+  }, [currentPath, lastRecordedTime, lastPausePoint, shouldAddPoint, isPoiOnlyMode]);
 
   const addPOI = useCallback((poi: POI) => {
     setPois(prev => [...prev, poi]);
@@ -98,9 +102,11 @@ export const useTrack = () => {
     currentAltitude,
     pois,
     trackName,
+    isPoiOnlyMode,
     setTrackName,
     updatePosition,
     addPOI,
-    resetTrack
+    resetTrack,
+    setPoiOnlyMode: setIsPoiOnlyMode
   };
 };

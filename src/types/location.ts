@@ -26,12 +26,14 @@ export interface LocationState {
   pois: POI[];
   error: GeolocationPositionError | null;
   isLoading: boolean;
+  isPoiOnlyMode: boolean;
 }
 
 export interface LocationContextType extends LocationState {
-  startTracking: (name: string) => void;
+  startTracking: (name: string, poiOnly?: boolean) => void;
   stopTracking: () => void;
   pauseTracking: () => void;
   resumeTracking: () => void;
   addPOI: (poi: POI) => void;
+  setPoiOnlyMode: (enabled: boolean) => void;
 }
