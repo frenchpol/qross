@@ -56,22 +56,24 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
             />
           </div>
           <div className="flex items-center justify-between space-x-4 px-1">
-            <div className="flex-1 text-right">
-              <Label htmlFor="poi-only" className="text-sm md:text-base text-foreground/80">
-                Parcours + Points d'intérêt
-              </Label>
-            </div>
+            <Label 
+              htmlFor="poi-only" 
+              className={`text-sm md:text-base ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+            >
+              Parcours + Points d'intérêt
+            </Label>
             <Switch
               id="poi-only"
               checked={poiOnly}
               onCheckedChange={setPoiOnly}
-              className="data-[state=checked]:bg-[#ace47c] data-[state=unchecked]:bg-muted"
+              className="data-[state=checked]:bg-[#ace47c] data-[state=unchecked]:bg-[#ace47c]"
             />
-            <div className="flex-1">
-              <Label htmlFor="poi-only" className="text-sm md:text-base text-foreground/80">
-                Points d'intérêt uniquement
-              </Label>
-            </div>
+            <Label 
+              htmlFor="poi-only" 
+              className={`text-sm md:text-base ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+            >
+              Points d'intérêt uniquement
+            </Label>
           </div>
           <div className="flex justify-center">
             <Button
