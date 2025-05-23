@@ -3,7 +3,7 @@ import { calculateTrackLength, calculateElevationGain, formatDistance, formatAlt
 import { useLocation } from '@/context/LocationContext';
 
 export const TrackInfo = () => {
-  const { isTracking, currentPath, currentAltitude, trackName } = useLocation();
+  const { isTracking, currentPath, currentAltitude, trackName, isPoiOnlyMode } = useLocation();
 
   if (!isTracking || currentPath.length === 0) return null;
 
@@ -46,40 +46,44 @@ export const TrackInfo = () => {
         </div>
       </motion.div>
       
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2 }}
-        className="bg-[#343f3c]/90 backdrop-blur-sm px-3 py-1.5 rounded-2xl shadow-lg border border-[#ace47c]/10 w-[90px]"
-      >
-        <div className="flex flex-col items-center">
-          <p className="text-[9px] font-medium text-foreground/70 uppercase tracking-wider">Distance</p>
-          <div className="flex items-baseline justify-center w-full">
-            <p className="text-base font-bold tabular-nums text-center" style={{ color: '#ace47c' }}>
-              {formatDistance(distance).split(' ')[0]}
-            </p>
-            <span className="ml-0.5 text-xs font-bold" style={{ color: '#ace47c' }}>
-              {formatDistance(distance).split(' ')[1]}
-            </span>
-          </div>
-        </div>
-      </motion.div>
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="bg-[#343f3c]/90 backdrop-blur-sm px-3 py-1.5 rounded-2xl shadow-lg border border-[#ace47c]/10 w-[90px]"
-      >
-        <div className="flex flex-col items-center">
-          <p className="text-[9px] font-medium text-foreground/70 uppercase tracking-wider">Dénivelé +</p>
-          <div className="flex items-baseline justify-center w-full">
-            <p className="text-base font-bold tabular-nums text-center" style={{ color: '#ace47c' }}>
-              {formatElevation(elevationGain)}
-            </p>
-            <span className="ml-0.5 text-xs font-bold" style={{ color: '#ace47c' }}>m</span>
-          </div>
-        </div>
-      </motion.div>
+      {!isPoiOnlyMode && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-[#343f3c]/90 backdrop-blur-sm px-3 py-1.5 rounded-2xl shadow-lg border border-[#ace47c]/10 w-[90px]"
+          >
+            <div className="flex flex-col items-center">
+              <p className="text-[9px] font-medium text-foreground/70 uppercase tracking-wider">Distance</p>
+              <div className="flex items-baseline justify-center w-full">
+                <p className="text-base font-bold tabular-nums text-center" style={{ color: '#ace47c' }}>
+                  {formatDistance(distance).split(' ')[0]}
+                </p>
+                <span className="ml-0.5 text-xs font-bold" style={{ color: '#ace47c' }}>
+                  {formatDistance(distance).split(' ')[1]}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="bg-[#343f3c]/90 backdrop-blur-sm px-3 py-1.5 rounded-2xl shadow-lg border border-[#ace47c]/10 w-[90px]"
+          >
+            <div className="flex flex-col items-center">
+              <p className="text-[9px] font-medium text-foreground/70 uppercase tracking-wider">Dénivelé +</p>
+              <div className="flex items-baseline justify-center w-full">
+                <p className="text-base font-bold tabular-nums text-center" style={{ color: '#ace47c' }}>
+                  {formatElevation(elevationGain)}
+                </p>
+                <span className="ml-0.5 text-xs font-bold" style={{ color: '#ace47c' }}>m</span>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 };

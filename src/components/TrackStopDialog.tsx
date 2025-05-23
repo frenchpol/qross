@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -15,22 +15,48 @@ interface TrackStopDialogProps {
 
 export const TrackStopDialog = ({ isOpen, onClose, onNewTrack }: TrackStopDialogProps) => {
   const { currentPath, trackName, pois } = useLocation();
+  const [showExportDialog, setShowExportDialog] = useState(false);
 
   const handleDownload = () => {
     if (currentPath.length > 0) {
       downloadGPXFile(currentPath, trackName, pois);
-      toast.success('Parcours enregistré au format GPX', {
-        className: 'bg-background/95 border-border/50 text-foreground',
-      });
-      onClose();
-      onNewTrack(); // Automatically open new track dialog after download
+      setShowExportDialog(true);
     }
   };
 
-  const handleNewTrack = () => {
+  const handleExportConfirm = () => {
+    setShowExportDialog(false);
     onClose();
     onNewTrack();
   };
+
+  if (showExportDialog) {
+    return (
+      <Dialog open={true} modal={true}>
+        <DialogContent 
+          className="w-[90vw] max-w-md mx-auto dialog-content-top"
+          style={{ 
+            background: 'hsl(167 49% 7% / 0.8)',
+            backdropFilter: 'blur(12px)'
+          }}
+        >
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+              Fichier GPX exporté
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <Button
+              onClick={handleExportConfirm}
+              className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 button-primary"
+            >
+              OK
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={isOpen} modal={true}>
@@ -60,7 +86,7 @@ export const TrackStopDialog = ({ isOpen, onClose, onNewTrack }: TrackStopDialog
               Télécharger le GPX
             </Button>
             <Button
-              onClick={handleNewTrack}
+              onClick={handleExportConfirm}
               className="h-12 text-white hover:bg-muted/90 button-primary"
               style={{ background: 'hsl(167 37% 16%)' }}
             >

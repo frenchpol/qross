@@ -45,7 +45,7 @@ export const Map = () => {
   const map = useRef<maplibregl.Map | null>(null);
   const markerRef = useRef<maplibregl.Marker | null>(null);
   const poiMarkersRef = useRef<maplibregl.Marker[]>([]);
-  const { currentLocation, currentPath, isTracking, isPaused, pois } = useLocation();
+  const { currentLocation, currentPath, isTracking, isPaused, pois, isPoiOnlyMode } = useLocation();
   const [isMapInitialized, setIsMapInitialized] = useState(false);
 
   useEffect(() => {
@@ -77,32 +77,34 @@ export const Map = () => {
         );
 
         mapInstance.on('load', () => {
-          mapInstance.addSource('route', {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'LineString',
-                coordinates: currentPath.map(point => point.coordinates),
+          if (!isPoiOnlyMode) {
+            mapInstance.addSource('route', {
+              type: 'geojson',
+              data: {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'LineString',
+                  coordinates: currentPath.map(point => point.coordinates),
+                },
               },
-            },
-          });
+            });
 
-          mapInstance.addLayer({
-            id: 'route',
-            type: 'line',
-            source: 'route',
-            layout: {
-              'line-join': 'round',
-              'line-cap': 'round',
-            },
-            paint: {
-              'line-color': MAP_STYLES.line.color,
-              'line-width': MAP_STYLES.line.width,
-              'line-opacity': MAP_STYLES.line.opacity,
-            },
-          });
+            mapInstance.addLayer({
+              id: 'route',
+              type: 'line',
+              source: 'route',
+              layout: {
+                'line-join': 'round',
+                'line-cap': 'round',
+              },
+              paint: {
+                'line-color': MAP_STYLES.line.color,
+                'line-width': MAP_STYLES.line.width,
+                'line-opacity': MAP_STYLES.line.opacity,
+              },
+            });
+          }
 
           markerRef.current = new maplibregl.Marker({ color: MAP_STYLES.marker.color })
             .setLngLat(userLocation)
@@ -186,18 +188,20 @@ export const Map = () => {
       }
     }
 
-    const source = map.current.getSource('route') as maplibregl.GeoJSONSource;
-    if (source) {
-      source.setData({
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: currentPath.map(point => point.coordinates),
-        },
-      });
+    if (!isPoiOnlyMode) {
+      const source = map.current.getSource('route') as maplibregl.GeoJSONSource;
+      if (source) {
+        source.setData({
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'LineString',
+            coordinates: currentPath.map(point => point.coordinates),
+          },
+        });
+      }
     }
-  }, [currentLocation, currentPath, isTracking, isPaused, isMapInitialized]);
+  }, [currentLocation, currentPath, isTracking, isPaused, isMapInitialized, isPoiOnlyMode]);
 
   return (
     <div className="absolute inset-0 bg-background">
