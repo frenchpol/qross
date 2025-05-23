@@ -1,21 +1,24 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  base = "/"
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--no-audit --no-fund"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = true
 
 [dev]
   command = "npm run dev"
-  port = 8080
+  targetPort = 8080
+  port = 8888
   publish = "dist"
-  framework = "vite"
+  framework = "#custom"
+  autoLaunch = true
 
 [[headers]]
   for = "/*"
@@ -24,4 +27,17 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self), interest-cohort=()"
+    Content-Security-Policy = """
+      default-src 'self' https:; \
+      script-src 'self' 'unsafe-inline' 'unsafe-eval'; \
+      style-src 'self' 'unsafe-inline'; \
+      img-src 'self' data: https:; \
+      font-src 'self' data:; \
+      connect-src 'self' https:; \
+      worker-src 'self' blob:; \
+      frame-ancestors 'none'; \
+      base-uri 'self'; \
+      form-action 'self'
+    """
