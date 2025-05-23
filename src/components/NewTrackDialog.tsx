@@ -34,17 +34,17 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
           backdropFilter: 'blur(12px)'
         }}
       >
-        <DialogHeader className="mb-2">
-          <DialogTitle className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+        <DialogHeader className="mb-1">
+          <DialogTitle className="text-lg md:text-xl font-bold tracking-tight text-foreground">
             Créer un nouveau parcours
           </DialogTitle>
         </DialogHeader>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
+          className="space-y-3"
         >
-          <p className="text-sm md:text-base text-foreground/80 leading-relaxed -mt-1">
+          <p className="text-sm text-foreground/80 leading-snug -mt-1">
             Pour créer un nouveau parcours, entrez le nom de votre parcours ci-dessous et autorisez la géolocalisation.
           </p>
           <div>
@@ -52,14 +52,14 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
               placeholder="Nom du parcours"
               value={trackName}
               onChange={(e) => setTrackName(e.target.value)}
-              className="h-12 text-base md:text-lg placeholder:text-foreground/50"
+              className="h-10 text-base placeholder:text-foreground/50"
             />
           </div>
-          <div className="flex items-center space-x-4 px-1">
+          <div className="flex items-center space-x-3 px-1">
             <div className="flex-1 text-right">
               <Label 
                 htmlFor="poi-only" 
-                className={`text-sm md:text-base ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+                className={`text-xs ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
               >
                 Parcours +<br />Points d'intérêt
               </Label>
@@ -73,17 +73,17 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
             <div className="flex-1">
               <Label 
                 htmlFor="poi-only" 
-                className={`text-sm md:text-base ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+                className={`text-xs ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
               >
-                Points d'intérêt uniquement
+                Points d'intérêt<br />uniquement
               </Label>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center pt-1">
             <Button
               onClick={handleStart}
               disabled={!trackName.trim()}
-              className="w-full h-14 md:h-16 px-6 text-base md:text-xl font-bold bg-[#ace47c] text-[#0f1a17] hover:bg-[#ace47c]/90 rounded-full button-primary"
+              className="w-full h-12 px-6 text-base font-bold bg-[#ace47c] text-[#0f1a17] hover:bg-[#ace47c]/90 rounded-full button-primary"
             >
               Démarrer l'enregistrement
             </Button>
