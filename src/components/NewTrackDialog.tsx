@@ -59,7 +59,7 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
             <div className="flex-1 text-right">
               <Label 
                 htmlFor="poi-only" 
-                className={`text-xs ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+                className={`text-[13px] leading-[1.1] ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
               >
                 Parcours +<br />Points d'intérêt
               </Label>
@@ -73,7 +73,7 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
             <div className="flex-1">
               <Label 
                 htmlFor="poi-only" 
-                className={`text-xs ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+                className={`text-[13px] leading-[1.1] ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
               >
                 Points d'intérêt<br />uniquement
               </Label>
