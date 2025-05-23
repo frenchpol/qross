@@ -55,25 +55,29 @@ export const NewTrackDialog = ({ onClose }: NewTrackDialogProps) => {
               className="h-12 text-base md:text-lg placeholder:text-foreground/50"
             />
           </div>
-          <div className="flex items-center justify-between space-x-4 px-1">
-            <Label 
-              htmlFor="poi-only" 
-              className={`text-sm md:text-base ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
-            >
-              Parcours + Points d'intérêt
-            </Label>
+          <div className="flex items-center space-x-4 px-1">
+            <div className="flex-1 text-right">
+              <Label 
+                htmlFor="poi-only" 
+                className={`text-sm md:text-base ${!poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+              >
+                Parcours +<br />Points d'intérêt
+              </Label>
+            </div>
             <Switch
               id="poi-only"
               checked={poiOnly}
               onCheckedChange={setPoiOnly}
               className="data-[state=checked]:bg-[#ace47c] data-[state=unchecked]:bg-[#ace47c]"
             />
-            <Label 
-              htmlFor="poi-only" 
-              className={`text-sm md:text-base ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
-            >
-              Points d'intérêt uniquement
-            </Label>
+            <div className="flex-1">
+              <Label 
+                htmlFor="poi-only" 
+                className={`text-sm md:text-base ${poiOnly ? 'text-[#ace47c] font-bold' : 'text-foreground/80'}`}
+              >
+                Points d'intérêt uniquement
+              </Label>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
