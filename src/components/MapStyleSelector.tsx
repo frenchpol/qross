@@ -17,7 +17,7 @@ export const MapStyleSelector = ({ currentStyle, onStyleChange }: MapStyleSelect
       className="fixed z-10"
       style={{ 
         top: '126px',  // Increased by 30px from 96px
-        right: '0px'   // Changed from 40px to 0px
+        right: '-10px'   // Changed from 40px to 0px
       }}
     >
       <div className="flex flex-col">
