@@ -4,6 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useLocation } from '@/context/LocationContext';
 import { MAP_DEFAULTS, MAP_STYLES } from '@/constants/map';
 import { toast } from 'sonner';
+import { MapStyleSelector } from './MapStyleSelector';
 
 const TERRAIN_STYLE = {
   version: 8,
@@ -31,6 +32,29 @@ const TERRAIN_STYLE = {
   ]
 };
 
+const SATELLITE_STYLE = {
+  version: 8,
+  sources: {
+    satellite: {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+      ],
+      tileSize: 256,
+      attribution: '&copy; <a href="https://www.arcgis.com/">Esri</a>'
+    }
+  },
+  layers: [
+    {
+      id: 'satellite',
+      type: 'raster',
+      source: 'satellite',
+      minzoom: 0,
+      maxzoom: 19
+    }
+  ]
+};
+
 const createPopupHTML = (name: string, comment: string) => `
   <div class="p-3 min-w-[200px]">
     <h3 class="text-black text-lg font-semibold mb-1" style="color: black !important;">
@@ -47,6 +71,15 @@ export const Map = () => {
   const poiMarkersRef = useRef<maplibregl.Marker[]>([]);
   const { currentLocation, currentPath, isTracking, isPaused, pois, isPoiOnlyMode } = useLocation();
   const [isMapInitialized, setIsMapInitialized] = useState(false);
+  const [currentStyle, setCurrentStyle] = useState<'terrain' | 'satellite'>('terrain');
+
+  const handleStyleChange = (style: 'terrain' | 'satellite') => {
+    if (!map.current) return;
+    
+    const newStyle = style === 'terrain' ? TERRAIN_STYLE : SATELLITE_STYLE;
+    map.current.setStyle(newStyle);
+    setCurrentStyle(style);
+  };
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -208,6 +241,10 @@ export const Map = () => {
       <div 
         ref={mapContainer} 
         className="h-full w-full brightness-90 contrast-120"
+      />
+      <MapStyleSelector
+        currentStyle={currentStyle}
+        onStyleChange={handleStyleChange}
       />
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background/10 to-transparent" />
       {isPaused && (

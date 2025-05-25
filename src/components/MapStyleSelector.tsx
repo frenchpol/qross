@@ -1,39 +1,42 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Map, Layers } from 'lucide-react';
+import { Map, Satellite } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { MAP_STYLES_CONFIG } from '@/constants/map';
 import { cn } from '@/lib/utils';
 
 interface MapStyleSelectorProps {
-  currentStyle: string;
-  onStyleChange: (style: string) => void;
+  currentStyle: 'terrain' | 'satellite';
+  onStyleChange: (style: 'terrain' | 'satellite') => void;
 }
 
 export const MapStyleSelector = ({ currentStyle, onStyleChange }: MapStyleSelectorProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       className="fixed top-24 right-4 z-10 flex flex-col gap-2"
+      style={{ top: '100px' }} // Position it below the zoom controls
     >
-      {Object.entries(MAP_STYLES_CONFIG).map(([id, style]) => (
-        <Button
-          key={id}
-          onClick={() => onStyleChange(id)}
-          className={cn(
-            "w-12 h-12 bg-[#343f3c]/90 backdrop-blur-sm hover:bg-[#343f3c] border border-[#ace47c]/10 rounded-xl shadow-lg transition-all duration-200",
-            currentStyle === id && "border-[#ace47c]/50"
-          )}
-          title={style.name}
-        >
-          {style.icon === 'map' ? (
-            <Map className="w-6 h-6" style={{ color: '#ace47c' }} />
-          ) : (
-            <Layers className="w-6 h-6" style={{ color: '#ace47c' }} />
-          )}
-        </Button>
-      ))}
+      <Button
+        onClick={() => onStyleChange('terrain')}
+        className={cn(
+          "w-12 h-12 bg-[#343f3c]/90 backdrop-blur-sm hover:bg-[#343f3c] border border-[#ace47c]/10 rounded-xl shadow-lg transition-all duration-200",
+          currentStyle === 'terrain' && "border-[#ace47c]/50"
+        )}
+        title="Terrain"
+      >
+        <Map className="w-6 h-6" style={{ color: '#ace47c' }} />
+      </Button>
+      <Button
+        onClick={() => onStyleChange('satellite')}
+        className={cn(
+          "w-12 h-12 bg-[#343f3c]/90 backdrop-blur-sm hover:bg-[#343f3c] border border-[#ace47c]/10 rounded-xl shadow-lg transition-all duration-200",
+          currentStyle === 'satellite' && "border-[#ace47c]/50"
+        )}
+        title="Satellite"
+      >
+        <Satellite className="w-6 h-6" style={{ color: '#ace47c' }} />
+      </Button>
     </motion.div>
   );
 };
