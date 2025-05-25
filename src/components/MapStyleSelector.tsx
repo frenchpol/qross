@@ -14,9 +14,9 @@ export const MapStyleSelector = ({ currentStyle, onStyleChange }: MapStyleSelect
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed z-10"
+      className="fixed z10"
       style={{ 
-        top: '126px',  // Increased by 30px from 96px
+        top: '140px',  // Increased by 30px from 96px
         right: '-5px'   // Changed from 40px to 0px
       }}
     >
